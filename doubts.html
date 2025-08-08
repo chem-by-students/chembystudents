@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doubts & Answers - Chem By Students</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-atom"></i>
+                <span>Chem By Students</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html#topics" class="nav-link">Topics</a>
+                </li>
+                <li class="nav-item">
+                    <a href="videos.html" class="nav-link">Our Videos</a>
+                </li>
+                <li class="nav-item">
+                    <a href="doubts.html" class="nav-link active">Doubts & Answers</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html#about" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html#contact" class="nav-link">Contact</a>
+                </li>
+            </ul>
+            <div class="user-profile" id="userProfile" style="display: none;" onclick="openProfilePanel()">
+                <img id="userAvatar" src="" alt="Profile" class="user-avatar">
+                <div id="userInitialAvatar" class="user-initial-avatar" style="display:none"></div>
+                <div class="user-info">
+                    <span id="userName">User</span>
+                    <span id="userRole" class="user-role"></span>
+                    <i class="fas fa-chevron-down profile-dropdown-icon"></i>
+                </div>
+            </div>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1 class="hero-title">Doubts & Answers</h1>
+                <p class="hero-subtitle">Ask questions, share knowledge, and learn together</p>
+                <div class="hero-buttons">
+                    <a href="#doubts" class="btn btn-primary">View All Doubts</a>
+                    <a href="#ask-doubt" class="btn btn-secondary">Ask a Question</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="student-thinking">
+                    <div class="student-head"></div>
+                    <div class="student-body"></div>
+                    <div class="thought-bubble">
+                        <div class="thought-dot"></div>
+                        <div class="thought-dot"></div>
+                        <div class="thought-dot"></div>
+                    </div>
+                    <div class="question-mark">?</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Doubts Section -->
+        <section id="doubts" class="doubts">
+            <div class="container">
+                <h2 class="section-title">Chemistry Doubts & Answers</h2>
+                <p class="section-subtitle">Have a question? Ask it here and get help from fellow students!</p>
+                
+                <!-- Ask Doubt Form -->
+                <div id="ask-doubt" class="doubt-form">
+                    <h3>Ask a Question</h3>
+                    <form id="doubtForm">
+                        <div class="form-group">
+                            <input type="text" id="doubtTitle" placeholder="Question Title" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="doubtContent" placeholder="Describe your question in detail..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Post Question</button>
+                    </form>
+                </div>
+
+                <!-- Doubts List -->
+                <div class="doubts-list" id="doubtsList">
+                    <!-- Doubts will be loaded here -->
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Authentication Overlay -->
+    <div id="authOverlay" class="auth-overlay">
+        <div class="auth-container">
+            <div class="auth-box">
+                <div class="auth-header">
+                    <i class="fas fa-atom"></i>
+                    <h2>Welcome to Chem By Students</h2>
+                    <p>Join our chemistry learning community</p>
+                </div>
+                
+                <!-- Login Form -->
+                <form id="loginForm" class="auth-form">
+                    <h3>Login</h3>
+                    <div class="form-group">
+                        <input type="text" id="loginUsername" placeholder="Username" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="loginPassword" placeholder="Password" required>
+                    </div>
+                    <div class="form-group admin-checkbox">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="loginIsAdmin">
+                            <span class="checkmark"></span>
+                            Login as admin?
+                        </label>
+                        <small class="admin-note">Check this if you have admin privileges.</small>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                    <p class="auth-switch">Don't have an account? <a href="#" onclick="showSignup()">Sign up</a></p>
+                </form>
+                
+                <!-- Signup Form -->
+                <form id="signupForm" class="auth-form" style="display: none;">
+                    <h3>Sign Up</h3>
+                    <div class="form-group">
+                        <input type="text" id="signupUsername" placeholder="Username" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="signupPassword" placeholder="Password" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="signupConfirmPassword" placeholder="Confirm Password" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Sign Up</button>
+                    <p class="auth-switch">Already have an account? <a href="#" onclick="showLogin()">Login</a></p>
+                </form>
+                
+                <!-- Google Sign In -->
+                <div class="google-auth">
+                    <p>Or continue with</p>
+                    <div id="g_id_onload"
+                         data-client_id="242412065603-emgqkm7sisd0asn64r4kkoq5lbf16p0c.apps.googleusercontent.com"
+                         data-callback="handleGoogleSignIn">
+                    </div>
+                    <div class="g_id_signin" data-type="standard"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Profile Panel Modal -->
+    <div id="profilePanelModal" class="modal">
+        <div class="modal-content profile-panel-content">
+            <span class="close" onclick="closeProfilePanel()">&times;</span>
+            <div class="profile-panel-header">
+                <div class="profile-avatar-section">
+                    <div id="profilePanelAvatar" class="profile-panel-avatar"></div>
+                    <div class="profile-info">
+                        <h3 id="profilePanelName">User Name</h3>
+                        <span id="profilePanelRole" class="profile-role">Student</span>
+                        <p id="profilePanelJoinDate">Joined: <span>Loading...</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="profile-panel-body">
+                <div class="profile-stats">
+                    <div class="stat-item">
+                        <i class="fas fa-book"></i>
+                        <span id="profileTopicsCount">0</span>
+                        <label>Topics Viewed</label>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-question-circle"></i>
+                        <span id="profileQuestionsCount">0</span>
+                        <label>Questions Asked</label>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-comments"></i>
+                        <span id="profileAnswersCount">0</span>
+                        <label>Answers Given</label>
+                    </div>
+                </div>
+                
+                <div class="profile-actions">
+                    <h4>Quick Actions</h4>
+                    <div class="action-buttons">
+                        <button class="action-btn" onclick="openUploadModal()">
+                            <i class="fas fa-upload"></i>
+                            Upload Topic
+                        </button>
+                        <button class="action-btn" onclick="window.location.href='videos.html'">
+                            <i class="fas fa-play-circle"></i>
+                            Watch Videos
+                        </button>
+                        <button class="action-btn" onclick="window.location.href='doubts.html'">
+                            <i class="fas fa-question-circle"></i>
+                            Ask Questions
+                        </button>
+                        <button class="action-btn" onclick="openChangePasswordModal()">
+                            <i class="fas fa-key"></i>
+                            Change Password
+                        </button>
+                        <button class="action-btn admin-only" onclick="openAdminPanel()">
+                            <i class="fas fa-cog"></i>
+                            Admin Panel
+                        </button>
+                        <button class="action-btn admin-only" onclick="viewAllUsers()">
+                            <i class="fas fa-users"></i>
+                            Manage Users
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="profile-settings">
+                    <h4>Account Settings</h4>
+                    <div class="settings-options">
+                        <button class="settings-btn" onclick="exportUserData()">
+                            <i class="fas fa-download"></i>
+                            Export My Data
+                        </button>
+                        <button class="settings-btn" onclick="logout()">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Logout
+                        </button>
+                        <button class="settings-btn danger" onclick="confirmDeleteAccount()">
+                            <i class="fas fa-trash"></i>
+                            Delete Account
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Change Password Modal -->
+    <div id="changePasswordModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeChangePasswordModal()">&times;</span>
+            <h3>Change Password</h3>
+            <form id="changePasswordForm">
+                <div class="form-group">
+                    <label for="currentPassword">Current Password</label>
+                    <input type="password" id="currentPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="newPassword">New Password</label>
+                    <input type="password" id="newPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirmNewPassword">Confirm New Password</label>
+                    <input type="password" id="confirmNewPassword" required>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeChangePasswordModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Change Password</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Delete Account Confirmation Modal -->
+    <div id="deleteAccountModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeDeleteAccountModal()">&times;</span>
+            <h3>Delete Account</h3>
+            <div class="delete-account-warning">
+                <i class="fas fa-exclamation-triangle"></i>
+                <p><strong>Warning:</strong> This action cannot be undone. All your data will be permanently deleted.</p>
+            </div>
+            <form id="deleteAccountForm">
+                <div class="form-group">
+                    <label for="deleteConfirmPassword">Enter your password to confirm</label>
+                    <input type="password" id="deleteConfirmPassword" required>
+                </div>
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="deleteConfirmCheckbox" required>
+                        <span class="checkmark"></span>
+                        I understand that this action is irreversible
+                    </label>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeDeleteAccountModal()">Cancel</button>
+                    <button type="submit" class="btn btn-danger">Delete Account</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 

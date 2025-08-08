@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Videos - Chem By Students</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .videos-header {
+            background: linear-gradient(135deg, #000000 0%, #333333 100%);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+            margin-top: 80px; /* Add margin to account for fixed navbar */
+        }
+        
+        .videos-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        
+        .videos-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .videos-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .category-filter {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 0.75rem 1.5rem;
+            border: 2px solid #000000;
+            background: white;
+            color: #000000;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: #000000;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        .videos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .video-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid #f0f0f0;
+        }
+        
+        .video-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .video-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .video-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        
+        .video-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .video-category {
+            background: #000000;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .video-content {
+            padding: 1.5rem;
+        }
+        
+        .video-description {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        
+        .video-player {
+            width: 100%;
+            border-radius: 8px;
+            background: #000;
+            margin-top: 1rem;
+        }
+        
+        .video-container {
+            position: relative;
+            width: 100%;
+            margin-top: 1rem;
+        }
+        
+        .video-thumbnail {
+            width: 100%;
+            height: 200px;
+            background: #000;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .video-thumbnail::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: 1;
+        }
+        
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 2;
+            transition: all 0.3s ease;
+        }
+        
+        .play-button:hover {
+            background: rgba(0, 0, 0, 0.9);
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+        
+        .play-button i {
+            color: white;
+            font-size: 24px;
+            margin-left: 4px;
+        }
+        
+        .video-player {
+            display: none;
+            width: 100%;
+            border-radius: 8px;
+            background: #000;
+        }
+        
+        .video-player.playing {
+            display: block;
+        }
+        
+        .no-videos {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+        
+        .no-videos i {
+            font-size: 4rem;
+            color: #ddd;
+            margin-bottom: 1rem;
+        }
+
+        .admin-upload-option {
+            margin-top: 2rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 15px;
+            border: 2px solid #000000;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .admin-upload-option h4 {
+            color: #000000;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .admin-upload-option p {
+            color: #666;
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+        }
+
+        .admin-upload-option .btn {
+            font-size: 1.1rem;
+            padding: 0.75rem 1.5rem;
+        }
+        
+        .nav-link.active {
+            color: #000000;
+            font-weight: 600;
+        }
+        
+        .search-bar {
+            max-width: 500px;
+            margin: 0 auto 2rem;
+            position: relative;
+        }
+        
+        .search-bar input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 25px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .search-bar input:focus {
+            outline: none;
+            border-color: #000000;
+            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .search-bar i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+        }
+        
+        .test-video-btn {
+            background: #000000;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .test-video-btn:hover {
+            background: #333333;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        @media (max-width: 768px) {
+            .videos-header h1 {
+                font-size: 2rem;
+            }
+            
+            .videos-container {
+                padding: 1rem;
+            }
+            
+            .videos-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .category-filter {
+                gap: 0.5rem;
+            }
+            
+            .filter-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+            
+            .back-btn {
+                top: 1rem;
+                left: 1rem;
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-atom"></i>
+                <span>Chem By Students</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html#home" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html#topics" class="nav-link">Topics</a>
+                </li>
+                <li class="nav-item">
+                    <a href="videos.html" class="nav-link active">Our Videos</a>
+                </li>
+                <li class="nav-item">
+                    <a href="doubts.html" class="nav-link">Doubts & Answers</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html#about" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html#contact" class="nav-link">Contact</a>
+                </li>
+            </ul>
+            <div class="user-profile" id="userProfile" style="display: none;">
+                <img id="userAvatar" src="" alt="Profile" class="user-avatar">
+                <div id="userInitialAvatar" class="user-initial-avatar" style="display:none"></div>
+                <div class="user-info">
+                    <span id="userName">User</span>
+                    <span id="userRole" class="user-role"></span>
+                    <button onclick="logout()" class="logout-btn">Logout</button>
+                </div>
+            </div>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="videos-header">
+        <div class="container">
+            <h1><i class="fas fa-play-circle"></i> Our Videos</h1>
+            <p>Explore chemistry concepts through our comprehensive video collection</p>
+            <button class="test-video-btn" id="testVideoBtn" onclick="createTestVideo()" style="display: none;">
+                <i class="fas fa-play"></i> Create Test Video
+            </button>
+            <button class="test-upload-btn" id="testUploadBtn" onclick="openVideoUploadModal()" style="margin-left: 1rem; padding: 0.5rem 1rem; background: #000; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                <i class="fas fa-upload"></i> Test Upload Modal
+            </button>
+        </div>
+    </div>
+    
+    <div class="videos-container">
+        <div class="search-bar">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchInput" placeholder="Search videos by title or content...">
+        </div>
+        
+        <div class="debug-section" id="debugSection" style="margin: 1rem 0; padding: 1rem; background: #f5f5f5; border-radius: 8px; font-size: 0.9rem; display: none;">
+            <strong>Debug Info:</strong> 
+            <span id="videoCount">Loading...</span> videos found in storage.
+            <button onclick="removeTestVideos()" style="margin-left: 1rem; padding: 0.5rem 1rem; background: #dc2626; color: white; border: none; border-radius: 4px; cursor: pointer;">Remove Test Videos</button>
+        </div>
+        
+        <div class="category-filter">
+            <button class="filter-btn active" data-category="all">All Videos</button>
+            <button class="filter-btn" data-category="chemical-reactions">Chemical Reactions</button>
+            <button class="filter-btn" data-category="stoichiometry">Stoichiometry</button>
+            <button class="filter-btn" data-category="atomic-structure">Atomic Structure</button>
+            <button class="filter-btn" data-category="chemical-bonding">Chemical Bonding</button>
+            <button class="filter-btn" data-category="periodic-table">Periodic Table</button>
+            <button class="filter-btn" data-category="separation-techniques">Separation Techniques</button>
+        </div>
+        
+        <div id="videosGrid" class="videos-grid">
+            <!-- Videos will be loaded here -->
+        </div>
+    </div>
+    
+    <script>
+        // User authentication and profile management
+        let currentUser = null;
+        
+        // Check if user is logged in
+        function checkAuthentication() {
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+            if (user) {
+                currentUser = user;
+            }
+        }
+        // Update user profile display
+        function updateUserProfile() {
+            const userProfile = document.getElementById('userProfile');
+            const userAvatar = document.getElementById('userAvatar');
+            const userInitialAvatar = document.getElementById('userInitialAvatar');
+            const userName = document.getElementById('userName');
+            const userRole = document.getElementById('userRole');
+            const debugSection = document.getElementById('debugSection');
+            const testVideoBtn = document.getElementById('testVideoBtn');
+            
+            if (currentUser && userProfile) {
+                userProfile.style.display = 'flex';
+                userInitialAvatar.textContent = (currentUser.name || currentUser.username || 'U')[0].toUpperCase();
+                userInitialAvatar.style.display = 'flex';
+                if (userAvatar) userAvatar.style.display = 'none';
+                userName.textContent = currentUser.name || currentUser.username;
+                
+                // Display user role and show/hide admin-only elements
+                if (currentUser.isAdmin) {
+                    userRole.textContent = 'Admin';
+                    userRole.style.color = '#000000';
+                    userRole.style.fontWeight = '600';
+                    
+                    // Show admin-only elements
+                    if (debugSection) debugSection.style.display = 'block';
+                    if (testVideoBtn) testVideoBtn.style.display = 'flex';
+                } else {
+                    userRole.textContent = 'Student';
+                    userRole.style.color = '#666666';
+                    userRole.style.fontWeight = '400';
+                    
+                    // Hide admin-only elements
+                    if (debugSection) debugSection.style.display = 'none';
+                    if (testVideoBtn) testVideoBtn.style.display = 'none';
+                }
+            }
+        }
+        
+        // Logout function
+        function logout() {
+            currentUser = null;
+            window.location.href = 'index.html';
+        }
+        
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            hamburger.addEventListener('click', () => {
+                hamburger.classList.toggle('active');
+                navMenu.classList.toggle('active');
+            });
+            
+            // Close mobile menu when clicking on a link
+            document.querySelectorAll('.nav-link').forEach(n => n.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            }));
+        }
+        
+        
+        // Get category display name
+        function getCategoryDisplayName(category) {
+            const categoryNames = {
+                'chemical-reactions': 'Chemical Reactions',
+                'stoichiometry': 'Stoichiometry',
+                'atomic-structure': 'Atomic Structure',
+                'chemical-bonding': 'Chemical Bonding',
+                'periodic-table': 'Periodic Table',
+                'separation-techniques': 'Separation Techniques'
+            };
+            return categoryNames[category] || category;
+        }
+        
+         // Fetch videos from the server
+         async function fetchVideos() {
+             try {
+                 const response = await fetch('http://localhost:3000/videos'); // Replace with your server endpoint
+                 if (!response.ok) {
+                     throw new Error(`HTTP error! status: ${response.status}`);
+                 }
+                 const videoList = await response.json();
+                 return videoList;
+             } catch (error) {
+                 console.error('Error fetching videos:', error);
+                 alert('Failed to load videos from the server.');
+                 return [];
+             }
+         }
+
+
+
+
+
+        // Render videos
+        function renderVideos(videos = null) {
+            const videosToRender = videos || [];
+            const grid = document.getElementById('videosGrid');
+            const videoCount = document.getElementById('videoCount');
+            
+            // Update debug info
+            if (videoCount) {
+                videoCount.textContent = videosToRender.length;
+            }
+            
+            if (videosToRender.length === 0) {
+                let noVideosHTML = `
+                    <div class="no-videos">
+                        <i class="fas fa-video-slash"></i>
+                        <h3>No videos available</h3>
+                        <p>Check back later for new chemistry videos!</p>
+                `;
+                
+                // Add upload option for admins
+                if (currentUser && currentUser.isAdmin) {
+                    noVideosHTML += `
+                        <div class="admin-upload-option">
+                            <h4><i class="fas fa-upload"></i> Upload First Video</h4>
+                            <p>As an admin, you can upload the first chemistry video!</p>
+                            <button class="btn btn-primary" id="uploadVideoBtn">
+                                <i class="fas fa-plus"></i> Upload Video
+                            </button>
+                        </div>
+                    `;
+                }
+                
+                noVideosHTML += `</div>`;
+                grid.innerHTML = noVideosHTML;
+                return;
+            }
+            
+            grid.innerHTML = videosToRender.map((topic, index) => {
+                let videoHTML = '';
+                if (topic.files && topic.files.length > 0) {
+                    const videoFile = topic.files.find(file => file.type && file.type.startsWith('video/'));
+                    if (videoFile) {
+                        videoHTML = `
+                            <div class="video-container">
+                                <div class="video-thumbnail" onclick="playVideo(${index})">
+                                    <div class="play-button">
+                                        <i class="fas fa-play"></i>
+                                    </div>
+                                </div>
+                                <video class="video-player" controls>
+                                    <source src="http://localhost:3000/${topic.filePath}" type="${videoFile.type}">  //This will need to be changed to the url stored in your database
+                                    Your browser does not support the video tag.
+                                </video>
+                            </div>
+                        `;
+                    }
+                }
+                
+                return `
+                    <div class="video-card" data-category="${topic.category}">
+                        <div class="video-header">
+                            <h3 class="video-title">${topic.title}</h3>
+                            <div class="video-meta">
+                                <span class="video-category">${getCategoryDisplayName(topic.category)}</span>
+                                <span><i class="fas fa-user"></i> ${topic.author || 'Admin'}</span>
+                                <span><i class="fas fa-calendar"></i> ${topic.date || new Date().toLocaleDateString()}</span>
+                            </div>
+                        </div>
+                        <div class="video-content">
+                            <p class="video-description">${topic.content}</p>
+                            ${videoHTML}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        // Play video function
+        function playVideo(videoIndex) {
+            const videosToRender = loadVideos();
+            const videoCard = document.querySelectorAll('.video-card')[videoIndex];
+            const thumbnail = videoCard.querySelector('.video-thumbnail');
+            const videoPlayer = videoCard.querySelector('.video-player');
+            
+            if (thumbnail && videoPlayer) {
+                // Hide thumbnail and show video player
+                thumbnail.style.display = 'none';
+                videoPlayer.classList.add('playing');
+                videoPlayer.style.display = 'block';
+                
+                // Start playing the video
+                videoPlayer.play();
+            }
+        }
+        
+        // Make playVideo function globally accessible
+        window.playVideo = playVideo;
+        
+        // Create test video function
+        function createTestVideo() {
+          const uploadedTopics = []
+            // Check if test video already exists
+            const existingTestVideo = uploadedTopics.find(topic => 
+                topic.title.toLowerCase().includes('test') || 
+                topic.title.toLowerCase().includes('chemistry video')
+            );
+            
+            if (existingTestVideo) {
+                alert('Test video already exists!');
+                return;
+            }
+            
+            const testTopic = {
+                id: Date.now(),
+                title: 'Test Chemistry Video',
+                category: 'chemical-reactions',
+                content: 'This is a test video to demonstrate the video functionality. Students and admins can watch this video by clicking the play button.',
+                author: 'Test Admin',
+                date: new Date().toLocaleDateString(),
+                files: [{
+                    name: 'test-video.mp4',
+                    type: 'video/mp4',
+                    size: 1024000,
+                    data: 'data:video/mp4;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLZiTYIG2m98OScTgwOUarm7blmGgU7k9n1unEiBC13yO/eizEIHWq+8+OWT'
+                }]
+            };
+            
+            // Re-render videos
+            renderVideos();
+            
+            alert('Test video created successfully! You should now see it in the videos grid below.');
+        }
+        
+        // Make createTestVideo function globally accessible
+        window.createTestVideo = createTestVideo;
+        
+        // Remove test videos function
+        function removeTestVideos() {
+            const originalLength = uploadedTopics.length;
+            
+            const filteredTopics = uploadedTopics.filter(topic => 
+                !topic.title.toLowerCase().includes('test') && 
+                !topic.title.toLowerCase().includes('chemistry video')
+            );
+            
+            if (filteredTopics.length < originalLength) {
+                renderVideos();
+                alert(`Removed ${originalLength - filteredTopics.length} test video(s)!`);
+            } else {
+                alert('No test videos found to remove.');
+            }
+        }
+        
+        // Make removeTestVideos function globally accessible
+        window.removeTestVideos = removeTestVideos;
+        
+        // Filter videos by category
+        function filterVideos(category) {
+            const allVideos = [];
+            const filteredVideos = category === 'all' ? allVideos : allVideos.filter(video => video.category === category);
+            renderVideos(filteredVideos);
+        }
+        
+        // Search videos
+        function searchVideos(query) {
+             const allVideos = [];
+            const searchResults = allVideos.filter(video => 
+                video.title.toLowerCase().includes(query.toLowerCase()) ||
+                video.content.toLowerCase().includes(query.toLowerCase())
+            );
+            renderVideos(searchResults);
+        }
+        
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check authentication and setup user profile
+            checkAuthentication();
+            // Setup mobile menu
+            toggleMobileMenu();
+            
+            // Setup upload functionality
+            setupUploadFunctionality();
+            
+            // Initial render
+            renderVideos();
+            
+            // Category filter buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    const category = this.dataset.category;
+                    filterVideos(category);
+                });
+            });
+            
+            // Search functionality
+            const searchInput = document.getElementById('searchInput');
+            let searchTimeout;
+            
+            searchInput.addEventListener('input', function() {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    const query = this.value.trim();
+                    if (query === '') {
+                        renderVideos();
+                    } else {
+                        searchVideos(query);
+                    }
+                }, 300);
+            });
+        });
+
+        // Setup upload functionality
+        function setupUploadFunctionality() {
+            const videoUploadForm = document.getElementById('videoUploadForm');
+            if (videoUploadForm) {
+                videoUploadForm.addEventListener('submit', handleVideoUploadSubmit);
+            }
+            
+            // Add event delegation for the upload button
+            document.addEventListener('click', function(e) {
+                if (e.target && e.target.id === 'uploadVideoBtn') {
+                    console.log('Upload button clicked via event delegation!');
+                    openVideoUploadModal();
+                }
+            });
+        }
+
+        // Open video upload modal
+        function openVideoUploadModal() {
+            console.log('=== OPENING VIDEO UPLOAD MODAL ===');
+            console.log('Current user:', currentUser);
+            console.log('Is admin:', currentUser ? currentUser.isAdmin : 'No user');
+            
+            const modal = document.getElementById('videoUploadModal');
+            const adminNameSpan = document.getElementById('uploadAdminName');
+            
+            console.log('Modal element:', modal);
+            console.log('Admin name span:', adminNameSpan);
+            
+            if (!modal) {
+                console.error('Upload modal not found!');
+                alert('Upload modal not found. Please refresh the page.');
+                return;
+            }
+            
+            if (!currentUser) {
+                console.error('No user logged in');
+                alert('Please login first to upload videos.');
+                return;
+            }
+            
+            if (!currentUser.isAdmin) {
+                console.error('User is not admin');
+                alert('Only administrators can upload videos.');
+                return;
+            }
+            
+            // Set admin name
+            if (adminNameSpan && currentUser) {
+                adminNameSpan.textContent = currentUser.name || currentUser.username;
+            }
+            
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            console.log('Modal opened successfully');
+        }
+
+        // Make functions globally accessible
+        window.openVideoUploadModal = openVideoUploadModal;
+        window.closeVideoUploadModal = closeVideoUploadModal;
+
+        // Debug function to check everything
+        window.debugUploadSystem = function() {
+            console.log('=== DEBUGGING UPLOAD SYSTEM ===');
+            console.log('Current user:', currentUser);
+            console.log('Is admin:', currentUser ? currentUser.isAdmin : 'No user');
+            
+            const modal = document.getElementById('videoUploadModal');
+            const form = document.getElementById('videoUploadForm');
+            const button = document.getElementById('uploadVideoBtn');
+            
+            console.log('Modal exists:', !!modal);
+            console.log('Form exists:', !!form);
+            console.log('Button exists:', !!button);
+            console.log('openVideoUploadModal function:', typeof window.openVideoUploadModal);
+            
+            if (button) {
+                console.log('Button HTML:', button.outerHTML);
+            }
+            
+            return {
+                user: currentUser,
+                isAdmin: currentUser ? currentUser.isAdmin : false,
+                modal: !!modal,
+                form: !!form,
+                button: !!button,
+                function: typeof window.openVideoUploadModal
+            };
+        };
+
+        // Close video upload modal
+        function closeVideoUploadModal() {
+            const modal = document.getElementById('videoUploadModal');
+            if (modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+                
+                // Reset form
+                const form = document.getElementById('videoUploadForm');
+                if (form) {
+                    form.reset();
+                }
+            }
+        }
+
+        // Handle video upload form submission
+        function handleVideoUploadSubmit(e) {
+            e.preventDefault();
+            console.log('handleVideoUploadSubmit called (modified for server upload)');
+            
+            if (!currentUser || !currentUser.isAdmin) {
+                alert('You must be logged in as an administrator to upload videos.');
+                return;
+            }
+            
+            const title = document.getElementById('videoTitle').value.trim();
+            const category = document.getElementById('videoCategory').value;
+            console.log('Category selected:', category);
+            const description = document.getElementById('videoDescription').value.trim();
+            const videoFile = document.getElementById('videoFile').files[0];
+            
+            // Validate form
+            if (!title || !category || !description || !videoFile) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+            
+            // Check file type
+            if (!videoFile.type.startsWith('video/')) {
+                alert('Please select a valid video file.');
+                return;
+            }
+            
+            // Check file size (50MB limit)
+            if (videoFile.size > 50 * 1024 * 1024) {
+                alert('Video file size must be less than 50MB.');
+                return;
+            }
+            
+            console.log('About to process video upload');
+            // Process video upload
+            processVideoUpload(title, category, description, videoFile);
+        }
+
+        // Test function to debug upload system
+        window.testUploadButton = function() {
+            console.log('=== TESTING UPLOAD BUTTON ===');
+            console.log('Current user:', currentUser);
+            console.log('Is authenticated:', !!currentUser);
+            console.log('Is admin:', currentUser ? currentUser.isAdmin : 'No user');
+            
+            // Check if elements exist
+            const modal = document.getElementById('videoUploadModal');
+            const form = document.getElementById('videoUploadForm');
+            const button = document.querySelector('.admin-upload-option .btn');
+            
+            console.log('Modal exists:', !!modal);
+            console.log('Form exists:', !!form);
+            console.log('Upload button exists:', !!button);
+            
+            if (!currentUser) {
+                alert('Please login first as an admin.');
+                return;
+            }
+            
+            if (!currentUser.isAdmin) {
+                alert('You need to be an admin to test this.');
+                return;
+            }
+            
+            if (!modal) {
+                alert('Upload modal not found in HTML!');
+                return;
+            }
+            
+            if (!form) {
+                alert('Upload form not found in HTML!');
+                return;
+            }
+            
+            alert('All elements found! Trying to open modal...');
+            openVideoUploadModal();
+        };
+
+        // Process video upload
+        function processVideoUpload(title, category, description, videoFile) {
+            const reader = new FileReader();
+            console.log('processVideoUpload called');
+            
+            reader.onload = function(e) {
+                const videoData = {
+                    name: videoFile.name,
+                    type: videoFile.type,
+                   size: videoFile.size,
+                    data: e.target.result
+                };
+                console.log('Video data:', videoData);
+                
+                // Create video object
+                const newVideo = {
+                    id: Date.now(),
+                    title: title,
+                   category: category,
+                    content: description,
+                    author: currentUser.name || currentUser.username,
+                    date: new Date().toLocaleDateString(),
+                  files: [videoData]
+                };
+                console.log('New video object:', newVideo);
+                
+                         // Create FormData object to send the file
+                        const formData = new FormData();
+                        formData.append('title', title);
+                         formData.append('category', category);
+                         formData.append('description', description);
+                         formData.append('videoFile', videoFile);
+             
+                         // Send the data to the server
+                         fetch('http://localhost:3000/uploadVideo', { // Replace '/uploadVideo' with your server endpoint
+                             method: 'POST',
+                             body: formData
+                         })
+                         .then(response => {
+                             if (response.ok) {
+                                 return response.text(); // Or response.json() if your server returns JSON
+                             } else {
+                                 throw new Error('Upload failed: ' + response.statusText);
+                             }
+                         })
+                         .then(data => {
+                             console.log('Server response:', data);
+                             alert('Video uploaded successfully!');
+                             closeVideoUploadModal();
+                             renderVideos(); // Refresh the video list
+                         })
+            
+                
+                // Refresh the videos display
+                renderVideos();
+            };
+            console.log('Starting to read video file');
+            
+            reader.onerror = function() {
+                alert('Error reading video file. Please try again.');
+            };
+            
+            reader.readAsDataURL(videoFile);
+        }
+    </script>
+
+    <!-- Video Upload Modal -->
+    <div id="videoUploadModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeVideoUploadModal()">&times;</span>
+            <div class="modal-header">
+                <h3><i class="fas fa-upload"></i> Upload Chemistry Video</h3>
+                <p>Logged in as: <span id="uploadAdminName">Admin</span></p>
+            </div>
+            <form id="videoUploadForm">
+                <div class="form-group">
+                    <label for="videoTitle">Video Title *</label>
+                    <input type="text" id="videoTitle" placeholder="Enter video title" required>
+                </div>
+                <div class="form-group">
+                    <label for="videoCategory">Category *</label>
+                    <select id="videoCategory" required>
+                        <option value="">Select a category</option>
+                        <option value="chemical-reactions">Chemical Reactions</option>
+                        <option value="stoichiometry">Stoichiometry</option>
+                        <option value="atomic-structure">Atomic Structure</option>
+                        <option value="chemical-bonding">Chemical Bonding</option>
+                        <option value="periodic-table">Periodic Table</option>
+                        <option value="separation-techniques">Separation Techniques</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="videoDescription">Video Description *</label>
+                    <textarea id="videoDescription" rows="4" placeholder="Describe your chemistry video..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="videoFile">Upload Video File *</label>
+                    <input type="file" id="videoFile" accept="video/*" required>
+                    <small>Supported formats: MP4, MOV, WebM, AVI (Max 50MB)</small>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeVideoUploadModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-upload"></i> Upload Video
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        fetchVideos().then(videos => renderVideos(videos));
+    </script>
+</body>
+</html>
