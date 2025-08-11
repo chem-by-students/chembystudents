@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Videos - Chem By Students</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-atom"></i>
+                <span>Chem By Students</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html#home" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html#topics" class="nav-link">Topics</a>
+                </li>
+                <li class="nav-item">
+                    <a href="videos.html" class="nav-link active">Our Videos</a>
+                </li>
+                <li class="nav-item">
+                    <a href="doubts.html" class="nav-link">Doubts & Answers</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html#about" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html#contact" class="nav-link">Contact</a>
+                </li>
+            </ul>
+            <div class="user-profile" id="userProfile" style="display: none;">
+                <img id="userAvatar" src="" alt="Profile" class="user-avatar">
+                <div id="userInitialAvatar" class="user-initial-avatar" style="display:none"></div>
+                <div class="user-info">
+                    <span id="userName">User</span>
+                    <span id="userRole" class="user-role"></span>
+                    <button onclick="logout()" class="logout-btn">Logout</button>
+                </div>
+            </div>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Videos Section -->
+        <section id="videos" class="videos" style="padding-top: 80px;">
+            <div class="container">
+                <h2 class="section-title">Our Videos</h2>
+                <p class="section-subtitle">Watch our latest chemistry videos</p>
+                <div class="video-carousel-wrapper">
+                    <div class="video-carousel">
+                        <div class="video-slide">
+                            <div class="video-container">
+                                <video controls width="100%">
+                                    <source src="uploads/Sublimation Video.mp4" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                            </div>
+                            <div class="video-info" style="text-align: center; margin-top: 1rem;">
+                                <h3>Sublimation</h3>
+                                <p>A short video explaining the process of sublimation with real-world examples.</p>
+                            </div>
+                        </div>
+                        <!-- More video slides will be added here dynamically -->
+                    </div>
+                    <button class="carousel-btn prev" style="display: none;">&#10094;</button>
+                    <button class="carousel-btn next" style="display: none;">&#10095;</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Chem By Students</h4>
+                    <p>Making chemistry accessible through student-led learning.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html#home">Home</a></li>
+                        <li><a href="index.html#topics">Topics</a></li>
+                        <li><a href="index.html#about">About</a></li>
+                        <li><a href="index.html#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Categories</h4>
+                    <ul>
+                        <li><a href="#">Chemical Reactions</a></li>
+                        <li><a href="#">Stoichiometry</a></li>
+                        <li><a href="#">Chemical Bonding</a></li>
+                        <li><a href="#">Atomic Structure</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Chem By Students. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
